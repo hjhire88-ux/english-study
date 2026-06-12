@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="110" fill="#3b6ef5"/>
+  <path d="M120 150c0-26 21-47 47-47h178c26 0 47 21 47 47v118c0 26-21 47-47 47H230l-62 58c-9 8-23 2-23-10v-48h-25z" fill="#fff" opacity=".95"/>
+  <text x="240" y="248" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#3b6ef5" text-anchor="middle">A</text>
+  <text x="350" y="430" font-family="Malgun Gothic, Apple SD Gothic Neo, sans-serif" font-size="130" font-weight="bold" fill="#fff" text-anchor="middle">가</text>
+</svg>

@@ -1,0 +1,12 @@
+{
+  "name": "영어 회화 마스터",
+  "short_name": "영어회화",
+  "description": "회화 패턴 500 · 숙어 399 플래시카드 + 팝송 학습",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#3b6ef5",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
