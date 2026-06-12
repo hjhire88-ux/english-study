@@ -1,5 +1,5 @@
 // 오프라인 캐시 (https로 호스팅될 때만 동작)
-var CACHE = "engmaster-v6";
+var CACHE = "engmaster-v7";
 var FILES = ["./", "./index.html", "./manifest.json", "./icon.svg"];
 ["p01","p02","p03","p04","p05","p06","p07","p08","p09","p10",
  "i01","i02","i03","i04","i05","i06","i07","i08"].forEach(function(f){ FILES.push("./data/" + f + ".js"); });

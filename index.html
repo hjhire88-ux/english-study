@@ -204,7 +204,7 @@ nav button{font-size:12.5px;padding:10px 2px}
   <div class="setbox"><h3>⚙ 설정</h3>
     <div class="setrow"><label>하루 새 카드 수</label>
       <select id="set-new"><option>10</option><option selected>20</option><option>30</option><option>50</option><option>100</option></select></div>
-    <div class="setrow"><label>정답 공개 시 자동 발음</label><input type="checkbox" id="set-tts"></div>
+    <div class="setrow"><label>정답 확인 시 예문 3개 자동 읽기</label><input type="checkbox" id="set-tts"></div>
     <div class="setrow"><label>발음 속도</label>
       <select id="set-rate"><option value="0.8">느리게</option><option value="0.95" selected>보통</option><option value="1.1">빠르게</option></select></div>
     <div class="setrow"><label>진도 백업/복원</label>
@@ -244,7 +244,7 @@ function load(){
   return fix({cards:{},log:{},set:{}});
 }
 function fix(s){
-  s.set=Object.assign({deck:"p",dir:"ko2en",newPerDay:20,tts:false,rate:0.95},s.set||{});
+  s.set=Object.assign({deck:"p",dir:"ko2en",newPerDay:20,tts:false,ttsEx:true,rate:0.95},s.set||{});
   s.log=s.log||{};
   s.cards=s.cards||{};
   for(var id in s.cards){ // 가져오기/구버전 데이터 방어: 깨진 카드 기록 정리
@@ -320,6 +320,7 @@ function pick(){
 /* ---------- 카드 렌더 ---------- */
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function show(){
+  if("speechSynthesis"in window)try{speechSynthesis.cancel();}catch(e){} // 카드 넘기면 낭독 중단
   var c=counts();
   document.getElementById("c-new").textContent=c.nw;
   document.getElementById("c-lrn").textContent=c.lr;
@@ -370,7 +371,7 @@ function reveal(){
   document.getElementById("row-show").style.display="none";
   document.getElementById("row-grade").style.display="flex";
   previews();
-  if(S.set.tts)speak(it.e.replace(/\s*~\s*/g," something "));
+  if(S.set.ttsEx)speakSeq(it.x.map(function(p){return p[0];})); // 예문 3개 자동 낭독
 }
 function previews(){
   var ivs=[0,1,2,3].map(function(g){return fmtIv(sim(g));});
@@ -413,16 +414,20 @@ function grade(g){
 }
 
 /* ---------- TTS ---------- */
-function speak(t){
+function speakSeq(texts){ // 여러 문장을 순서대로 낭독 (새 호출 시 기존 낭독 중단)
   try{
     speechSynthesis.cancel();
-    var u=new SpeechSynthesisUtterance(t.replace(/\s*~\s*/g," "));
-    u.lang="en-US";u.rate=S.set.rate;
-    var v=speechSynthesis.getVoices().filter(function(v){return v.lang.indexOf("en")===0;});
-    if(v.length)u.voice=v.find(function(x){return x.lang==="en-US";})||v[0];
-    speechSynthesis.speak(u);
+    var v=speechSynthesis.getVoices().filter(function(x){return x.lang.indexOf("en")===0;});
+    var voice=v.length?(v.find(function(x){return x.lang==="en-US";})||v[0]):null;
+    texts.forEach(function(t){
+      var u=new SpeechSynthesisUtterance(t.replace(/\s*~\s*/g," "));
+      u.lang="en-US";u.rate=S.set.rate;
+      if(voice)u.voice=voice;
+      speechSynthesis.speak(u);
+    });
   }catch(e){}
 }
+function speak(t){speakSeq([t]);}
 if("speechSynthesis"in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){speechSynthesis.getVoices();};}
 
 /* ---------- 목록 ---------- */
@@ -468,9 +473,9 @@ function renderStats(){
 /* ---------- 설정 ---------- */
 function bindSet(){
   var sn=document.getElementById("set-new"),st=document.getElementById("set-tts"),sr=document.getElementById("set-rate");
-  sn.value=S.set.newPerDay;st.checked=S.set.tts;sr.value=String(S.set.rate);
+  sn.value=S.set.newPerDay;st.checked=S.set.ttsEx;sr.value=String(S.set.rate);
   sn.onchange=function(){S.set.newPerDay=+sn.value;save();show();};
-  st.onchange=function(){S.set.tts=st.checked;save();};
+  st.onchange=function(){S.set.ttsEx=st.checked;save();};
   sr.onchange=function(){S.set.rate=+sr.value;save();};
   document.getElementById("impfile").onchange=function(ev){
     var f=ev.target.files[0];if(!f)return;
