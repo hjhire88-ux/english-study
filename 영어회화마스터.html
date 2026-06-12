@@ -419,7 +419,7 @@ DB.push(
 {n:"p170",t:"p",e:"He looks like ~",k:"그는 ~같아 보여요",x:[["He looks like a movie star.","그는 영화배우 같아 보여요."],["He looks like he's lost.","그는 길을 잃은 것 같아 보여요."],["He looks like his mother.","그는 어머니를 닮았어요."]]},
 {n:"p171",t:"p",e:"She asked me if ~",k:"그녀는 제게 ~인지 물었어요",x:[["She asked me if I was free tonight.","그녀가 오늘 밤에 시간 있냐고 물었어요."],["She asked me if the rumor was true.","그녀는 그 소문이 사실인지 제게 물었어요."],["She asked me if I could speak English.","그녀가 제게 영어를 할 줄 아냐고 물었어요."]]},
 {n:"p172",t:"p",e:"It's a shame to ~",k:"~하는 건 부끄러운(아쉬운) 일이에요",x:[["It's a shame to waste this food.","이 음식을 버리는 건 아까운 일이에요."],["It's a shame to stay inside on such a nice day.","이렇게 좋은 날 집에만 있는 건 아쉬워요."],["It's a shame to give up now.","지금 포기하는 건 안타까운 일이에요."]]},
-{n:"p173",t:"p",e:"It's better than someone expected",k:"기대했던 것보다 나아요",x:[["The movie is better than I expected.","영화가 기대했던 것보다 좋네요."],["This hotel is better than we imagined.","이 호텔은 우리가 상상했던 것보다 좋아요."],["The result is much better than anyone expected.","결과가 모두의 예상보다 훨씬 좋아요."]]},
+{n:"p173",t:"p",e:"It's better than someone expected",k:"기대했던 것보다 나아요",x:[["It's better than I expected.","기대했던 것보다 좋네요."],["This hotel is better than we imagined.","이 호텔은 우리가 상상했던 것보다 좋아요."],["The result is much better than anyone expected.","결과가 모두의 예상보다 훨씬 좋아요."]]},
 {n:"p174",t:"p",e:"It's supposed to ~",k:"~하기로 되어 있어요",x:[["It's supposed to rain this afternoon.","오늘 오후에 비가 온다고 해요."],["The bus is supposed to arrive at ten.","버스가 10시에 도착하기로 되어 있어요."],["This medicine is supposed to help you sleep.","이 약은 잠드는 데 도움이 된다고 해요."]]},
 {n:"p175",t:"p",e:"It's so ... that ~",k:"너무 …해서 ~해요",x:[["It's so hot that I can't sleep.","너무 더워서 잠을 잘 수가 없어요."],["It's so cheap that everyone is buying it.","너무 싸서 모두가 사고 있어요."],["It was so funny that I cried.","너무 웃겨서 눈물이 났어요."]]},
 {n:"p176",t:"p",e:"It's time that ~",k:"~할 때가 되었어요",x:[["It's time that we told him the truth.","이제 그에게 사실을 말할 때가 됐어요."],["It's time that you got your own place.","이제 독립할 때가 됐어요."],["It's time that we made a decision.","이제 결정을 내릴 때가 되었어요."]]},
@@ -1115,7 +1115,7 @@ DB.push(
 </script><script>
 // 숙어 301-350 (원본 302~351)
 DB.push(
-{n:"i301",t:"i",e:"out of date",k:"구식의",s:"old-fashioned",x:[["Her dress is out of date.","그녀의 드레스는 유행이 지났어요."],["This map is out of date.","이 지도는 오래돼서 안 맞아요."],["My phone is three years old and out of date.","제 휴대폰은 3년 됐고 구식이에요."]]},
+{n:"i301",t:"i",e:"out of date",k:"구식의, (유효) 기한이 지난",s:"old-fashioned",x:[["Her dress is out of date.","그녀의 드레스는 유행이 지났어요."],["This map is out of date.","이 지도는 오래돼서 안 맞아요."],["My phone is three years old and out of date.","제 휴대폰은 3년 됐고 구식이에요."]]},
 {n:"i302",t:"i",e:"up to date",k:"최신식의",s:"modern",x:[["His idea is not up to date.","그의 생각은 최신 흐름에 맞지 않아요."],["Keep your software up to date.","소프트웨어를 최신 상태로 유지하세요."],["The hotel is old but the rooms are up to date.","호텔은 오래됐지만 객실은 최신식이에요."]]},
 {n:"i303",t:"i",e:"out of breath",k:"숨이 차서, 헐떡이며",s:"panting",x:[["He came running out of breath.","그는 숨을 헐떡이며 뛰어왔어요."],["I was out of breath after climbing the stairs.","계단을 오르고 나니 숨이 찼어요."],["She was out of breath from chasing the bus.","그녀는 버스를 쫓아가느라 숨이 찼어요."]]},
 {n:"i304",t:"i",e:"out of order",k:"고장 난",s:"not in working condition",x:[["This telephone is out of order.","이 전화기는 고장 났어요."],["The elevator is out of order again.","엘리베이터가 또 고장이에요."],["The ticket machine was out of order, so I paid cash.","발권기가 고장 나서 현금으로 냈어요."]]},
@@ -1228,12 +1228,20 @@ DB.push(
 var LS="engmaster_v1";
 var S=load();
 function load(){
-  try{var s=JSON.parse(localStorage.getItem(LS));if(s&&s.cards)return fix(s);}catch(e){}
+  try{var s=JSON.parse(localStorage.getItem(LS));if(s&&s.cards)return fix(s);}catch(e){if(window.console)console.warn("저장 데이터 로드 실패, 초기화:",e);}
   return fix({cards:{},log:{},set:{}});
 }
 function fix(s){
   s.set=Object.assign({deck:"p",dir:"ko2en",newPerDay:20,tts:false,rate:0.95},s.set||{});
   s.log=s.log||{};
+  s.cards=s.cards||{};
+  for(var id in s.cards){ // 가져오기/구버전 데이터 방어: 깨진 카드 기록 정리
+    var c=s.cards[id];
+    if(!c||typeof c!=="object"||typeof c.due!=="number"||typeof c.iv!=="number"){delete s.cards[id];continue;}
+    if(typeof c.ease!=="number"||!(c.ease>=1.3))c.ease=2.5;
+    if(c.st!==1&&c.st!==2)c.st=2;
+    if(typeof c.step!=="number")c.step=0;
+  }
   if(!s.songs)s.songs=[{title:"My Bonnie Lies over the Ocean (예시)",artist:"Traditional",yt:"",lines:[
     ["My Bonnie lies over the ocean","나의 보니는 바다 건너에 있어요"],
     ["My Bonnie lies over the sea","나의 보니는 저 바다 너머에 있어요"],
@@ -1251,7 +1259,7 @@ var byId={};DB.forEach(function(it){byId[it.n]=it;});
 /* ---------- 시간 ---------- */
 function now(){return Date.now();}
 function eod(){var d=new Date();d.setHours(23,59,59,999);return d.getTime();}
-function dayDue(n){var d=new Date();d.setDate(d.getDate()+n);d.setHours(3,0,0,0);return d.getTime();}
+function dayDue(n){var d=new Date();d.setDate(d.getDate()+n);d.setHours(3,0,0,0);return d.getTime();} // n일 후 새벽 3시(자정~새벽 학습을 같은 날로 취급)
 function tkey(d){d=d||new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function fmtIv(ms){
   var m=Math.round(ms/60000);
@@ -1293,7 +1301,7 @@ function pick(){
 }
 
 /* ---------- 카드 렌더 ---------- */
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function show(){
   var c=counts();
   document.getElementById("c-new").textContent=c.nw;
@@ -1335,7 +1343,7 @@ function reveal(){
   var it=byId[cur];
   document.getElementById("answer").innerHTML=(S.set.dir==="ko2en"?esc(it.e):esc(it.k))+
     (S.set.dir==="ko2en"?' <button class="spk" onclick="speak(this.dataset.t)" data-t="'+esc(it.e)+'">🔊</button>':"");
-  document.getElementById("syn").textContent=it.s?("= "+it.s):(S.set.dir==="ko2en"?"":it.e);
+  document.getElementById("syn").textContent=it.s?("= "+it.s):"";
   var h="";
   it.x.forEach(function(p){
     h+='<div class="ex"><div class="en">'+esc(p[0])+' <button class="spk" onclick="speak(this.dataset.t)" data-t="'+esc(p[0])+'">🔊</button></div><div class="ko">'+esc(p[1])+"</div></div>";
@@ -1357,8 +1365,8 @@ function sim(g){
   if(st!==2){
     if(g===0)return 60e3;
     if(g===1)return 5*60e3;
-    if(g===2)return step===0?10*60e3:dayDue(1)-t;
-    return dayDue(3)-t;
+    if(g===2)return step===0?10*60e3:dayDue(Math.max(1,iv))-t;
+    return dayDue(Math.max(3,iv))-t;
   }
   if(g===0)return 10*60e3;
   if(g===1)return dayDue(Math.max(iv+1,Math.round(iv*1.2)))-t;
@@ -1373,8 +1381,8 @@ function grade(g){
   if(c.st!==2){
     if(g===0){c.step=0;c.due=t+60e3;}
     else if(g===1){c.due=t+5*60e3;}
-    else if(g===2){if(c.step===0){c.step=1;c.due=t+10*60e3;}else{c.st=2;c.iv=1;c.due=dayDue(1);}}
-    else{c.st=2;c.iv=3;c.due=dayDue(3);}
+    else if(g===2){if(c.step===0){c.step=1;c.due=t+10*60e3;}else{c.st=2;c.iv=Math.max(1,c.iv);c.due=dayDue(c.iv);}}
+    else{c.st=2;c.iv=Math.max(3,c.iv);c.due=dayDue(c.iv);}
   }else{
     if(g===0){c.lapses++;c.ease=Math.max(1.3,c.ease-0.2);c.st=1;c.step=1;c.iv=Math.max(1,Math.round(c.iv*0.4));c.due=t+10*60e3;}
     else if(g===1){c.ease=Math.max(1.3,c.ease-0.15);c.iv=Math.max(c.iv+1,Math.round(c.iv*1.2));c.due=dayDue(c.iv);}
@@ -1398,7 +1406,7 @@ function speak(t){
     speechSynthesis.speak(u);
   }catch(e){}
 }
-if("speechSynthesis"in window)speechSynthesis.getVoices();
+if("speechSynthesis"in window){speechSynthesis.getVoices();speechSynthesis.onvoiceschanged=function(){speechSynthesis.getVoices();};}
 
 /* ---------- 목록 ---------- */
 function renderList(){
@@ -1408,7 +1416,7 @@ function renderList(){
   for(var i=0;i<DB.length&&n<300;i++){
     var it=DB[i];
     if(d!=="all"&&it.t!==d)continue;
-    if(q&&it.e.toLowerCase().indexOf(q)<0&&it.k.indexOf(q)<0)continue;
+    if(q&&it.e.toLowerCase().indexOf(q)<0&&it.k.indexOf(q)<0&&(!it.s||it.s.toLowerCase().indexOf(q)<0))continue;
     n++;
     var c=S.cards[it.n],b;
     if(!c)b='<span class="badge p-new">미학습</span>';
@@ -1546,6 +1554,7 @@ function songView(idx){
   renderLyrics();
 }
 function setSongMode(m){songMode=m;renderLyrics();}
+var STOPW={the:1,a:1,an:1,and:1,or:1,but:1,to:1,of:1,in:1,on:1,at:1,is:1,am:1,are:1,was:1,were:1,be:1,it:1,its:1,my:1,your:1,his:1,her:1,our:1,their:1,this:1,that:1,for:1,with:1,you:1,not:1,oh:1,me:1,we:1,he:1,she:1,they:1};
 function renderLyrics(){
   var s=S.songs[curSong],out=[];
   document.querySelectorAll(".mbtn").forEach(function(b){b.classList.toggle("on",b.dataset.m===songMode);});
@@ -1559,7 +1568,7 @@ function renderLyrics(){
     if(songMode==="blank"){
       en=l[0].split(/\s+/).map(function(w,wi){
         var core=w.replace(/[^A-Za-z']/g,"");
-        if(core.length>2&&(wi+i)%3===1)return '<span class="blankw" onclick="event.stopPropagation();this.classList.add(\'open\')">'+esc(w)+"</span>";
+        if(core.length>2&&!STOPW[core.toLowerCase()]&&(wi+i)%3===1)return '<span class="blankw" onclick="event.stopPropagation();this.classList.add(\'open\')">'+esc(w)+"</span>";
         return esc(w);
       }).join(" ");
     }else en=esc(l[0]);
@@ -1584,11 +1593,13 @@ document.querySelectorAll("nav button").forEach(function(b){
   };
 });
 document.addEventListener("keydown",function(ev){
-  if(ev.target.tagName==="INPUT"||ev.target.tagName==="SELECT")return;
+  if(ev.target.tagName==="INPUT"||ev.target.tagName==="SELECT"||ev.target.tagName==="TEXTAREA")return;
   if(!document.getElementById("tab-study").classList.contains("on"))return;
-  if(ev.code==="Space"){ev.preventDefault();if(document.getElementById("row-show").style.display!=="none")reveal();}
-  if(ev.key>="1"&&ev.key<="4"&&document.getElementById("row-grade").style.display!=="none")grade(+ev.key-1);
-  if((ev.key==="s"||ev.key==="S")&&cur)speak(byId[cur].e);
+  var rs=document.getElementById("row-show"),rg=document.getElementById("row-grade");
+  if(!rs||!rg)return;
+  if(ev.code==="Space"){ev.preventDefault();if(rs.style.display!=="none")reveal();}
+  if(ev.key>="1"&&ev.key<="4"&&rg.style.display!=="none")grade(+ev.key-1);
+  if((ev.key==="s"||ev.key==="S")&&cur){var bk=document.getElementById("back");if(S.set.dir==="en2ko"||(bk&&bk.style.display!=="none"))speak(byId[cur].e);}
 });
 document.getElementById("deck").value=S.set.deck;
 document.getElementById("dir").value=S.set.dir;
@@ -1599,7 +1610,15 @@ document.getElementById("ldeck").onchange=renderList;
 
 if(DB.length<800)document.getElementById("dbwarn").style.display="block";
 bindSet();show();
-if(location.protocol.indexOf("http")===0&&"serviceWorker"in navigator){try{navigator.serviceWorker.register("sw.js");}catch(e){}}
+if(location.protocol.indexOf("http")===0&&"serviceWorker"in navigator){
+  try{
+    var hadCtrl=!!navigator.serviceWorker.controller,didReload=false;
+    navigator.serviceWorker.addEventListener("controllerchange",function(){ // 새 버전 배포 감지 시 1회 자동 새로고침
+      if(hadCtrl&&!didReload){didReload=true;location.reload();}
+    });
+    navigator.serviceWorker.register("sw.js");
+  }catch(e){}
+}
 </script>
 </body>
 </html>

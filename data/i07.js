@@ -1,6 +1,6 @@
 // 숙어 301-350 (원본 302~351)
 DB.push(
-{n:"i301",t:"i",e:"out of date",k:"구식의",s:"old-fashioned",x:[["Her dress is out of date.","그녀의 드레스는 유행이 지났어요."],["This map is out of date.","이 지도는 오래돼서 안 맞아요."],["My phone is three years old and out of date.","제 휴대폰은 3년 됐고 구식이에요."]]},
+{n:"i301",t:"i",e:"out of date",k:"구식의, (유효) 기한이 지난",s:"old-fashioned",x:[["Her dress is out of date.","그녀의 드레스는 유행이 지났어요."],["This map is out of date.","이 지도는 오래돼서 안 맞아요."],["My phone is three years old and out of date.","제 휴대폰은 3년 됐고 구식이에요."]]},
 {n:"i302",t:"i",e:"up to date",k:"최신식의",s:"modern",x:[["His idea is not up to date.","그의 생각은 최신 흐름에 맞지 않아요."],["Keep your software up to date.","소프트웨어를 최신 상태로 유지하세요."],["The hotel is old but the rooms are up to date.","호텔은 오래됐지만 객실은 최신식이에요."]]},
 {n:"i303",t:"i",e:"out of breath",k:"숨이 차서, 헐떡이며",s:"panting",x:[["He came running out of breath.","그는 숨을 헐떡이며 뛰어왔어요."],["I was out of breath after climbing the stairs.","계단을 오르고 나니 숨이 찼어요."],["She was out of breath from chasing the bus.","그녀는 버스를 쫓아가느라 숨이 찼어요."]]},
 {n:"i304",t:"i",e:"out of order",k:"고장 난",s:"not in working condition",x:[["This telephone is out of order.","이 전화기는 고장 났어요."],["The elevator is out of order again.","엘리베이터가 또 고장이에요."],["The ticket machine was out of order, so I paid cash.","발권기가 고장 나서 현금으로 냈어요."]]},
