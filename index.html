@@ -534,9 +534,8 @@ function songForm(idx){
 function songSave(){
   var t=document.getElementById("sf-name").value.trim();
   if(!t){alert("노래 제목을 입력하세요.");return;}
-  var en=document.getElementById("sf-en").value.replace(/\r/g,"").split("\n");
-  var ko=document.getElementById("sf-ko").value.replace(/\r/g,"").split("\n");
-  while(en.length&&!en[en.length-1].trim())en.pop();
+  var en=cleanLyrics(document.getElementById("sf-en").value);
+  var ko=cleanLyrics(document.getElementById("sf-ko").value);
   if(!en.length){alert("가사를 입력하세요.");return;}
   var lines=en.map(function(l,i){return[l.trim(),(ko[i]||"").trim()];});
   var song={title:t,artist:document.getElementById("sf-artist").value.trim(),yt:document.getElementById("sf-yt").value.trim(),lines:lines};
@@ -564,13 +563,29 @@ function songView(idx){
   h+='<div class="row" style="margin-top:12px">'
    +'<button class="ghost mbtn" data-m="all" onclick="setSongMode(\'all\')">전체 보기</button>'
    +'<button class="ghost mbtn" data-m="line" onclick="setSongMode(\'line\')">한 줄씩 듣기</button>'
-   +'<button class="ghost mbtn" data-m="blank" onclick="setSongMode(\'blank\')">빈칸 연습</button></div>'
+   +'<button class="ghost mbtn" data-m="blank" onclick="setSongMode(\'blank\')">빈칸 연습</button>'
+   +'<button class="ghost" onclick="lyricsSearch()">🔍 가사 검색</button></div>'
    +'<div id="songmode-tip" style="font-size:12.5px;color:var(--sub);margin-top:6px"></div>'
    +'<div id="lyrics"></div>';
   v.innerHTML=h;
   renderLyrics();
 }
 function setSongMode(m){songMode=m;renderLyrics();}
+function lyricsSearch(){
+  var s=S.songs[curSong];
+  var q=(s.title.replace(/\([^)]*\)/g,"")+" "+(s.artist||"").split("·")[0]+" lyrics").trim();
+  window.open("https://www.google.com/search?q="+encodeURIComponent(q),"_blank");
+}
+function cleanLyrics(raw){ // [Verse] 등 섹션 마커 제거, 연속 빈 줄 정리
+  var lines=raw.replace(/\r/g,"").split("\n").filter(function(l){return !/^\s*\[[^\]]*\]\s*$/.test(l);});
+  var out=[],blank=true;
+  lines.forEach(function(l){
+    if(!l.trim()){if(!blank)out.push("");blank=true;}
+    else{out.push(l);blank=false;}
+  });
+  while(out.length&&!out[out.length-1])out.pop();
+  return out;
+}
 var STOPW={the:1,a:1,an:1,and:1,or:1,but:1,to:1,of:1,in:1,on:1,at:1,is:1,am:1,are:1,was:1,were:1,be:1,it:1,its:1,my:1,your:1,his:1,her:1,our:1,their:1,this:1,that:1,for:1,with:1,you:1,not:1,oh:1,me:1,we:1,he:1,she:1,they:1};
 function renderLyrics(){
   var s=S.songs[curSong],out=[];
