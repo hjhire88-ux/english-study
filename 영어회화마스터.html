@@ -1251,6 +1251,11 @@ function fix(s){
     ["Bring back, bring back","돌려주오, 돌려주오"],
     ["Oh, bring back my Bonnie to me, to me","오, 나의 보니를 내게 돌려주오"]
   ]}];
+  if(!s.seedPop1){ // 기본 노래 1회 자동 추가 (이미 있으면 건너뜀)
+    s.seedPop1=1;
+    var hasIt=s.songs.some(function(t){return(t.yt||"").indexOf("1gERUWaafTo")>=0;});
+    if(!hasIt)s.songs.unshift({title:"팝송 명곡 베스트 100 (해석 자막 포함)",artist:"H녀 PLAYLIST · 5시간 35분",yt:"https://youtu.be/1gERUWaafTo",lines:[]});
+  }
   return s;
 }
 function save(){localStorage.setItem(LS,JSON.stringify(S));}
@@ -1562,6 +1567,10 @@ function renderLyrics(){
     line:"가사가 모두 가려져 있어요. 영상을 들으며 한 줄씩 받아쓰기하듯 떠올린 뒤, 클릭해서 확인하세요.",
     blank:"가려진 단어를 듣고 맞혀 보세요. 빈칸을 클릭하면 정답이 보입니다."};
   document.getElementById("songmode-tip").textContent=tips[songMode];
+  if(!s.lines.some(function(l){return l[0];})){
+    document.getElementById("lyrics").innerHTML='<div class="done">아직 가사가 등록되지 않은 노래예요.<br>영상은 위에서 바로 재생할 수 있고,<br>위의 "수정" 버튼으로 가사를 붙여넣으면<br>한 줄씩 듣기 · 빈칸 연습도 쓸 수 있어요.</div>';
+    return;
+  }
   s.lines.forEach(function(l,i){
     if(!l[0]){out.push('<div style="height:14px"></div>');return;}
     var en;
