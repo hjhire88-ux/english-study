@@ -174,7 +174,7 @@ nav button{font-size:12.5px;padding:10px 2px}
       <h3 id="sf-head">새 노래 추가</h3>
       <input type="text" id="sf-name" class="sf-in" placeholder="노래 제목 (예: Let It Be)">
       <input type="text" id="sf-artist" class="sf-in" placeholder="가수 (예: The Beatles)">
-      <input type="text" id="sf-yt" class="sf-in" placeholder="유튜브 링크 (선택) — 예: https://www.youtube.com/watch?v=...">
+      <input type="text" id="sf-yt" class="sf-in" placeholder="유튜브 링크 (선택) — 모음 영상은 ?t=초 가 붙은 링크로 곡 위치 지정 가능">
       <textarea id="sf-en" rows="10" placeholder="영어 가사를 붙여넣으세요 (한 줄에 한 소절, 빈 줄은 절 구분)"></textarea>
       <textarea id="sf-ko" rows="6" placeholder="한국어 해석 (선택) — 영어 가사와 같은 줄 순서로 붙여넣으세요"></textarea>
       <div class="row" style="margin-top:10px">
@@ -1470,6 +1470,15 @@ function ytId(u){
   var m=u.match(/(?:youtu\.be\/|[?&]v=|shorts\/|embed\/|live\/)([A-Za-z0-9_-]{11})/);
   return m?m[1]:"";
 }
+function ytStart(u){
+  if(!u)return 0;
+  var m=u.match(/[?&#](?:t|start)=([0-9hms]+)/);
+  if(!m)return 0;
+  var v=m[1];
+  if(/^\d+$/.test(v))return +v;
+  var h=/(\d+)h/.exec(v),mn=/(\d+)m/.exec(v),sc=/(\d+)s/.exec(v);
+  return(h?+h[1]*3600:0)+(mn?+mn[1]*60:0)+(sc?+sc[1]:0);
+}
 function songHome(){
   document.getElementById("song-home").style.display="block";
   document.getElementById("song-form").style.display="none";
@@ -1523,8 +1532,9 @@ function songView(idx){
   var h='<div class="row" style="justify-content:space-between;align-items:center">'
    +'<div><b style="font-size:18px">'+esc(s.title)+'</b><br><span style="color:var(--sub);font-size:13px">'+esc(s.artist||"")+'</span></div>'
    +'<div style="white-space:nowrap"><button class="ghost" onclick="songForm('+idx+')">수정</button> <button class="danger" onclick="songDel('+idx+')">삭제</button> <button class="ghost" onclick="songHome()">← 목록</button></div></div>';
-  var id=ytId(s.yt);
-  if(id)h+='<div class="ytwrap"><iframe src="https://www.youtube.com/embed/'+id+'" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>';
+  var id=ytId(s.yt),st=ytStart(s.yt);
+  if(id)h+='<div class="ytwrap"><iframe src="https://www.youtube.com/embed/'+id+(st?"?start="+st:"")+'" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe></div>'
+    +(st?'<div style="font-size:12.5px;color:var(--sub);margin-top:6px">⏱ 이 곡은 영상의 '+Math.floor(st/3600)+"시간 "+Math.floor(st%3600/60)+"분 "+(st%60)+"초 지점부터 재생됩니다.</div>":"");
   else if(s.yt)h+='<div class="warn" style="display:block">유튜브 링크를 인식하지 못했어요. 링크를 확인해 주세요.</div>';
   h+='<div class="row" style="margin-top:12px">'
    +'<button class="ghost mbtn" data-m="all" onclick="setSongMode(\'all\')">전체 보기</button>'
